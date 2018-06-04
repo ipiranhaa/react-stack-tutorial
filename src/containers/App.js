@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import './style.css'
 import { connect } from 'react-redux'
 import Counter from '../components/counter'
-import { increment, decrement } from '../actions/actions'
+import UserTable from '../components/userTable'
+import { increment, decrement } from '../actions/counterAction'
+import { fetchUsers } from '../actions/userAction'
 
-const mapStateToProps = (number) => {
+const mapStateToProps = state => {
   return {
-    state: number
+    counter: state.counter,
+    users: state.users
   }
 }
 
@@ -17,21 +20,32 @@ const mapDispatchToProps = dispatch => {
     },
     onDecrement: number => {
       dispatch(decrement(number))
+    },
+    onFetchUsers: () => {
+      dispatch(fetchUsers())
     }
   }
 }
 
 class App extends Component {
   render() {
-    const { state, onIncrement, onDecrement} = this.props;
+    const { counter, users, onIncrement, onDecrement, onFetchUsers} = this.props;
     
     return (
       <div className="App">
         <Counter 
-          state={state} 
+          state={counter} 
           onIncrement={onIncrement}
           onDecrement={onDecrement}
         />
+
+        <button 
+          className='fetch-user'
+          onClick={onFetchUsers}
+        >
+          Fetch users
+        </button>
+        <UserTable users={users} />
       </div>
     );
   }
