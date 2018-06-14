@@ -1,9 +1,11 @@
 var app = require('express')();
 var uuidv4 = require('uuid/v4');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var cors = require('cors');
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 var port = process.env.PORT || 5000;
 
@@ -14,7 +16,7 @@ app.post('/todos', function (req, res) {
   var isSuccess;
   var result;
   var params = req.body;
-  console.log('params', params)
+
   if (params.title && typeof params.done === 'boolean') {
     var todo = {
       uid: uuidv4(),
